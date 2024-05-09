@@ -98,4 +98,3 @@ Should you have any questions, ideas, or concerns, please feel free to open an i
 
 This README aims to provide clear guidance on how to set up, use, and contribute to the project, making it accessible and inviting for both new users and potential contributors.
 ```
-# younovel-lms
