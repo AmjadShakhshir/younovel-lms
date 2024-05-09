@@ -16,5 +16,6 @@ export const getLayout = withTryCatch(
       success: true,
       layout,
     });
-  })
+  }),
+  { message: "Something went wrong while fetching layout. Please try again." }
 );

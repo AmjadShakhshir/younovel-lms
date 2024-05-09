@@ -48,5 +48,6 @@ export const getCourseWithoutPurchase = withTryCatch(
     }
 
     sendResponse(res, 200, true, course)();
-  })
+  }),
+  { message: "Cannot get course" }
 );

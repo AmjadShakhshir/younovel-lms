@@ -46,14 +46,17 @@ const layoutUpdaters = {
 @route    PUT /api/v1/layout/update-layout
 @access   Private (Admin only)
 */
-export const updateLayout = withTryCatch(async (req: Request, res: Response) => {
-  const { type } = req.body;
-  const updateLayoutFunction = layoutUpdaters[type as keyof typeof layoutUpdaters];
-  if (updateLayoutFunction) {
-    await updateLayoutFunction(type, req.body);
-  }
-  res.status(200).json({
-    success: true,
-    message: "Layout updated successfully",
-  });
-});
+export const updateLayout = withTryCatch(
+  async (req: Request, res: Response) => {
+    const { type } = req.body;
+    const updateLayoutFunction = layoutUpdaters[type as keyof typeof layoutUpdaters];
+    if (updateLayoutFunction) {
+      await updateLayoutFunction(type, req.body);
+    }
+    res.status(200).json({
+      success: true,
+      message: "Layout updated successfully",
+    });
+  },
+  { message: "Something went wrong while updating layout. Please try again." }
+);

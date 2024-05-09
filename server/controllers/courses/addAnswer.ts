@@ -85,5 +85,6 @@ export const addAnswer = withTryCatch(
       success: true,
       course,
     });
-  })
+  }),
+  { message: "Something went wrong while adding answer. Please try again." }
 );

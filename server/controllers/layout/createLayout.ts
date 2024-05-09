@@ -62,5 +62,6 @@ export const createLayout = withTryCatch(
       success: true,
       message: "Layout created successfully",
     });
-  })
+  }),
+  { message: "Something went wrong while creating layout. Please try again." }
 );

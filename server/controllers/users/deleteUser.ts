@@ -17,5 +17,6 @@ export const deleteUser = withTryCatch(
     await usersService.deleteUser(userId);
     await redis.del(id);
     res.status(200).json({ success: true, message: "User deleted successfully" });
-  })
+  }),
+  { message: "Something went wrong while deleting user. Please try again." }
 );

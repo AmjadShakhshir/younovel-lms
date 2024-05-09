@@ -13,5 +13,6 @@ export const getCoursesAnalytics = withTryCatch(
   catchAsyncErrors(async (req: Request, res: Response) => {
     const coursesAnalytics = await analyticsService.getCoursesAnalytics();
     res.status(200).json({ success: true, users: coursesAnalytics });
-  })
+  }),
+  { message: "Something went wrong while fetching courses analytics. Please try again." }
 );

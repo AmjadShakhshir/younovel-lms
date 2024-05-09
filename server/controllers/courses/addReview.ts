@@ -60,5 +60,6 @@ export const addReview = withTryCatch(
       success: true,
       course,
     });
-  })
+  }),
+  { message: "Something went wrong while adding review. Please try again." }
 );

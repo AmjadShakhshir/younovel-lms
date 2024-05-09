@@ -13,5 +13,6 @@ export const getUsersAnalytics = withTryCatch(
   catchAsyncErrors(async (req: Request, res: Response) => {
     const usersAnalytics = await analyticsService.getUsersAnalytics();
     res.status(200).json({ success: true, users: usersAnalytics });
-  })
+  }),
+  { message: "Something went wrong while fetching users analytics. Please try again." }
 );

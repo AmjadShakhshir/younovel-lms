@@ -122,5 +122,6 @@ export const createOrder = withTryCatch(
       order: orderData,
       message: "Order placed successfully",
     });
-  })
+  }),
+  { message: "Something went wrong while creating order. Please try again." }
 );

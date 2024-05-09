@@ -14,5 +14,6 @@ export const updateNotification = withTryCatch(
     await notificationService.updateNotification(id);
     const notifications = await notificationService.getAllNotifications();
     res.status(201).json({ success: true, notifications });
-  })
+  }),
+  { message: "Something went wrong while updating the notification. Please try again." }
 );

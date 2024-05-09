@@ -13,5 +13,6 @@ export const getAllCourses = withTryCatch(
   catchAsyncErrors(async (req: Request, res: Response) => {
     const courses = await coursesService.getAllCourses();
     res.status(200).json({ success: true, courses });
-  })
+  }),
+  { message: "Something went wrong while fetching courses. Please try again." }
 );

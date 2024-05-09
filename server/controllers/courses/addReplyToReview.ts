@@ -41,5 +41,6 @@ export const addReplyToReview = withTryCatch(
       success: true,
       course,
     });
-  })
+  }),
+  { message: "Something went wrong while adding reply to review. Please try again." }
 );

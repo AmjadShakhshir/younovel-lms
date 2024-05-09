@@ -30,5 +30,6 @@ export const getCourseContentForPurchasedUser = withTryCatch(
       success: true,
       content: courseContent,
     });
-  })
+  }),
+  { message: "Cannot get course content wihtout purchase" }
 );

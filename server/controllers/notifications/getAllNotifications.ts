@@ -12,5 +12,6 @@ export const getAllNotifications = withTryCatch(
   catchAsyncErrors(async (req: Request, res: Response) => {
     const notifications = await notificationService.getAllNotifications();
     return res.status(200).json({ success: true, notifications });
-  })
+  }),
+  { message: "Something went wrong while fetching notifications. Please try again." }
 );

@@ -13,5 +13,6 @@ export const deleteCourse = withTryCatch(
     await coursesService.deleteCourse(courseId);
     await redis.del(id);
     res.status(200).json({ success: true, message: "Course deleted successfully" });
-  })
+  }),
+  { message: "Something went wrong while deleting course. Please try again." }
 );

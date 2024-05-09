@@ -14,5 +14,6 @@ export const updateUserRole = withTryCatch(
     const { userId, role } = req.body;
     const user = await usersService.updateUserRole(userId, role);
     res.status(200).json({ success: true, user });
-  })
+  }),
+  { message: "Something went wrong while updating user role. Please try again." }
 );

@@ -52,5 +52,6 @@ export const addQuestion = withTryCatch(
       success: true,
       course,
     });
-  })
+  }),
+  { message: "Something went wrong while adding question. Please try again." }
 );

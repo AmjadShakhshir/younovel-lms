@@ -41,5 +41,6 @@ export const getAllCoursesWithoutPurchase = withTryCatch(
     }
 
     sendResponse(res, 200, true, courses)();
-  })
+  }),
+  { message: "Cannot get all courses" }
 );

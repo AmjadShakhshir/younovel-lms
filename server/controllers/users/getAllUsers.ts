@@ -12,5 +12,6 @@ export const getAllUsers = withTryCatch(
   catchAsyncErrors(async (req: Request, res: Response) => {
     const users = await usersService.findAll();
     res.status(200).json({ success: true, users });
-  })
+  }),
+  { message: "Something went wrong while fetching users. Please try again." }
 );

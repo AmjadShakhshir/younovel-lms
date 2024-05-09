@@ -51,5 +51,6 @@ export const updateCourse = withTryCatch(
       return next(ApiError.resourceNotFound("Course not found"));
     }
     sendResponse(res, 201, course)();
-  })
+  }),
+  { message: "Something went wrong while updating course. Please try again." }
 );

@@ -33,5 +33,6 @@ export const uploadCourse = withTryCatch(
       success: true,
       course,
     });
-  })
+  }),
+  { message: "Something went wrong while uploading course. Please try again." }
 );
