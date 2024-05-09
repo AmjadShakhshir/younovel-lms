@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { AiOutlineEye, AiOutlineEyeInvisible, AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
+import { signIn } from "next-auth/react";
 
 import { styles } from "../../../app/styles/style";
 import { useLoginMutation } from "../../../redux/features/auth/authApi";
@@ -21,7 +22,7 @@ const schema = Yup.object().shape({
 
 const Login: FC<Props> = ({ setRoute, setOpen }) => {
   const [show, setShow] = useState(false);
-  const [login, { isSuccess, error, data }] = useLoginMutation();
+  const [login, { isSuccess, error }] = useLoginMutation();
 
   const formik = useFormik({
     initialValues: {
@@ -72,8 +73,8 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
         <div className="mt-[1em]" />
         <h5 className="text-center pt-4 font-Poppins text-[0.9em] text-black dark:text-white">Or login with</h5>
         <div className="w-full flex justify-center items-center mt-2">
-          <FcGoogle size={30} className="cursor-pointer" />
-          <AiFillGithub size={30} className="cursor-pointer ml-2" />
+          <FcGoogle size={30} className="cursor-pointer" onClick={() => signIn("google")} />
+          <AiFillGithub size={30} className="cursor-pointer ml-2" onClick={() => signIn("github")} />
         </div>
         <h5 className="text-center pt-4 font-Poppins text-[0.9em]">
           Don&apos;t have an account?{" "}
