@@ -1,0 +1,20 @@
+import { NextFunction, Request, Response } from "express";
+
+import { withTryCatch } from "../../helper/withTryCatch";
+import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import layoutService from "../../services/layoutService";
+import { ApiError } from "../../middlewares/errors/ApiError";
+
+export const getLayout = withTryCatch(
+  catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    const layoutType = req.body.type;
+    const layout = await layoutService.findOne(layoutType);
+    if (!layout) {
+      return next(ApiError.badRequest("Layout not found"));
+    }
+    res.status(200).json({
+      success: true,
+      layout,
+    });
+  })
+);

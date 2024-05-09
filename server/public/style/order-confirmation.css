@@ -1,0 +1,124 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 600px;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #4f5ef1;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #fff;
+}
+.message {
+  text-align: center;
+  font-size: 1em;
+  margin-bottom: 20px;
+  padding-top: 50px;
+}
+.message-sm > h1 {
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: 600;
+}
+.course-info {
+  margin: auto;
+  padding: 20px 0;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 2px 2px 2px 2px rgba(206, 197, 197, 0.1);
+  color: #000;
+}
+.course-info > h4 {
+  color: #23bd70;
+  font-size: 1.3em;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  text-align: center;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.course-name {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+.purchase-info {
+  font-size: 1em;
+}
+.total {
+  font-size: 1.2em;
+  text-align: right;
+  margin-top: 20px;
+}
+.footer {
+  text-align: center;
+  margin-top: 100px;
+  color: #fff;
+}
+.footer > p > a {
+  text-decoration: none;
+  display: inline-block;
+  color: #fff;
+}
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #9999993f;
+}
+.flex h4 {
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+.flex.lg {
+  width: 85%;
+  margin: auto;
+  border-bottom: none;
+}
+.first-td {
+  text-transform: uppercase;
+  color: #0000006c;
+  font-size: 1em;
+  padding: 5px 0;
+  width: 1%;
+  font-weight: 600 !important;
+}
+.second-td {
+  font-weight: 500 !important;
+  color: #000000af;
+  font-size: 1em;
+}
+.title {
+  font-size: 1em !important;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+table td {
+  padding: 10px;
+  text-align: center;
+  width: 28.33%;
+}
+td.col-2 {
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+}
+.m-auto {
+  margin: auto;
+  width: 100%;
+}
+.table-row {
+  width: 70%;
+  display: block;
+  margin: auto;
+  padding: 10px 0;
+}
