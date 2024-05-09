@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
 
 import { styles } from "../../../app/styles/style";
-import useAppSelector from "../../../hooks/useAppSelector";
+import useAppSelector from "../../../redux/customHooks/useAppSelector";
 import { useActivationMutation } from "../../../redux/features/auth/authApi";
 
 type Props = {
