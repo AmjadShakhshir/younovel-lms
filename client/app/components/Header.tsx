@@ -1,7 +1,9 @@
 "use client";
 import Link from "next/link";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 import NavItems from "../utils/NavItems";
 import ThemeSwitcher from "../utils/ThemeSwitcher";
@@ -12,8 +14,10 @@ import CustomModal from "../utils/CustomModal";
 import Login from "../components/auth/Login";
 import SignUp from "../components/auth/SignUp";
 import Verification from "../components/auth/Verification";
-import useAppSelector from "../../hooks/useAppSelector";
+import useAppSelector from "../../redux/customHooks/useAppSelector";
 import avatar from "../../public/assets/avatar.jpg";
+import { useSocialAuthMutation } from "../../redux/features/auth/authApi";
+import { User } from "../types/User";
 
 type Props = {
   open: boolean;
@@ -32,9 +36,29 @@ const routeComponentMap: { [key: string]: FC<Props> } = {
 const Header: FC<Props> = ({ activeItem, setOpen, open, route, setRoute }) => {
   const active = useScrollActive(80);
   const [openSidebar, setOpenSidebar] = useState(false);
+  const [linkClicked, setLinkClicked] = useState(false);
   const handleSidebarClose = handleClose(setOpenSidebar);
   const { user } = useAppSelector((state) => state.auth);
+  const { data } = useSession<boolean>();
+  const objectIsEmpty = (user: User) => Object.keys(user).length === 0;
+
+  const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
   const RouteComponent = routeComponentMap[route.toString()];
+
+  // Define the dependencies outside of the useEffect hook
+  const socialAuthData = useMemo(() => ({ email: data?.user?.email, name: data?.user?.name, avatar: data?.user?.image }), [data]);
+
+  useEffect(() => {
+    if (objectIsEmpty(user) && data) {
+      socialAuth(socialAuthData);
+    }
+    if (isSuccess) {
+      setOpen(false);
+      toast.success("Logged in successfully");
+    } else if (error) {
+      toast.error("Something went wrong while logging in. Please try again.");
+    }
+  }, [data, user]);
 
   return (
     <div className="w-full relative">
@@ -61,7 +85,9 @@ const Header: FC<Props> = ({ activeItem, setOpen, open, route, setRoute }) => {
 
               {Object.keys(user).length > 0 ? (
                 <>
-                  <Image src={user.avatar ? user.avatar.url : avatar} alt="avatar" className="rounded-full cursor-pointer" width={30} height={30} />
+                  <Link href={"/profile"}>
+                    <Image src={user.avatar ? user.avatar.url : avatar} alt="avatar" className="rounded-full cursor-pointer" width={30} height={30} />
+                  </Link>
                 </>
               ) : (
                 <>
@@ -78,7 +104,9 @@ const Header: FC<Props> = ({ activeItem, setOpen, open, route, setRoute }) => {
               <NavItems activeItem={activeItem} isMobile={true} />
               {Object.keys(user).length > 0 ? (
                 <>
-                  <Image src={user.avatar ? user.avatar.url : avatar} alt="avatar" className="w-[30px] h-[30px] rounded-full cursor-pointer" width={30} height={30} />
+                  <Link href={"/profile"}>
+                    <Image src={user.avatar ? user.avatar.url : avatar} alt="avatar" className="w-[30px] h-[30px] rounded-full cursor-pointer" width={30} height={30} />
+                  </Link>
                 </>
               ) : (
                 <HiOutlineUserCircle size={25} className="cursor-pointer dark:text-white text-black ml-5 my-2" onClick={() => setOpen(true)} />
