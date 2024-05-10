@@ -13,4 +13,7 @@ export const styles = {
   heroSearchIconContainer: "absolute flex items-center justify-center w-[50px] cursor-pointer h-[50px] right-0 top-0 bg-[#39c1f3] rounded-r-[5px]",
   heroTrustStatementContainer: "1500px:w-[55%] 1100px:w-[78%] w-[90%] flex items-center",
   heroTrustStatement: "font-Josefin dark:text-[#edfff4] text-[#000000b3] 1000px:pl-3 text-[1.1em] font-[600]",
+  sideBarProfileImage: "w-[20px] h-[20px] 800px:w-[30px] 800px:h-[30px] cursor-pointer rounded-full",
+  sideBarProfileText: "pl-2 800px:block hidden font-Poppins dark:text-white text-black",
+  sideBarProfilePassword: "pl-2 800px:block hidden font-Poppins dark:text-white text-black",
 };
