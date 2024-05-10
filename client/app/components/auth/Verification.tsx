@@ -41,7 +41,7 @@ const Verification: FC<Props> = ({ setRoute }) => {
     } else {
       toast.error("An error occurred", error);
     }
-  }, [isSuccess, error]);
+  }, [isSuccess, error, setRoute]);
 
   const inputRefs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
 

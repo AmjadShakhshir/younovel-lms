@@ -43,7 +43,7 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
     if (error) {
       toast.error("Login Failed!");
     }
-  }, [isSuccess, error]);
+  }, [isSuccess, error, setOpen]);
 
   const { values, handleChange, handleSubmit, errors, touched } = formik;
   return (

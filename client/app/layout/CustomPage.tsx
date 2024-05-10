@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import Heading from "../utils/Heading";
 import Header from "../components/Header";
 
@@ -9,9 +9,10 @@ type Props = {
 };
 
 const CustomPage: FC<Props> = ({ children, headerTitle }) => {
-  const [open, setOpen] = useState(false);
+  const [open, _setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
   const [route, setRoute] = useState("Login");
+  const setOpen = useCallback(_setOpen, [_setOpen]);
   return (
     <section>
       <Heading title={headerTitle || "Younovel"} description="Elearning platform for students to learn and practice their skills." keywords="Python, Agile, MERN, Programming, Digital Marketing, Graphic design, React. Typescript, Machine Learning" />

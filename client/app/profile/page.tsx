@@ -13,13 +13,13 @@ const Page: FC<Props> = () => {
   if (Object.keys(user).length === 0) {
     return null;
   }
-  const parsedUser = JSON.parse(user);
+  const parsedUser = typeof user === "string" ? JSON.parse(user) : user;
 
   return (
     <section>
       <Protected>
         <CustomPage headerTitle={`${parsedUser?.name} profile`}>
-          <Profile />
+          <Profile user={parsedUser} />
         </CustomPage>
       </Protected>
     </section>
