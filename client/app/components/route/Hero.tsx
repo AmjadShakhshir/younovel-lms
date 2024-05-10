@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import React, { FC } from "react";
 import { BiSearch } from "react-icons/bi";
@@ -10,8 +10,8 @@ const Hero: FC<Props> = (props) => {
   const renderImages = () => (
     <>
       <Image src={require("../../../public/assets/banner-img-2.png")} alt="Student image" className="rounded-full" width={50} height={50} />
-      <Image src={require("../../../public/assets/banner-img-2.png")} alt="Student image" className="rounded-full ml-[-20px]" width={50} height={50} />
-      <Image src={require("../../../public/assets/banner-img-2.png")} alt="Student image" className="rounded-full ml-[-20px]" width={50} height={50} />
+      <Image src={require("../../../public/assets/banner-img-2.png")} alt="Student image" className="rounded-full" style={{ marginLeft: "-20px" }} width={50} height={50} />
+      <Image src={require("../../../public/assets/banner-img-2.png")} alt="Student image" className="rounded-full" style={{ marginLeft: "-20px" }} width={50} height={50} />
     </>
   );
   return (
