@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { FC, useEffect, useMemo, useState } from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
@@ -36,7 +36,6 @@ const routeComponentMap: { [key: string]: FC<Props> } = {
 const Header: FC<Props> = ({ activeItem, setOpen, open, route, setRoute }) => {
   const active = useScrollActive(80);
   const [openSidebar, setOpenSidebar] = useState(false);
-  const [linkClicked, setLinkClicked] = useState(false);
   const handleSidebarClose = handleClose(setOpenSidebar);
   const { user } = useAppSelector((state) => state.auth);
   const { data } = useSession<boolean>();
