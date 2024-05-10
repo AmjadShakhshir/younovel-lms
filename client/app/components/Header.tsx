@@ -57,7 +57,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, open, route, setRoute }) => {
     } else if (error) {
       toast.error("Something went wrong while logging in. Please try again.");
     }
-  }, [data, user, socialAuth, socialAuthData, isSuccess, error, setOpen]);
+  }, [data, user]);
 
   return (
     <div className="w-full relative">
