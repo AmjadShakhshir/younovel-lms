@@ -1,9 +1,9 @@
 import { NextFunction, Response, Request } from "express";
+import mongoose from "mongoose";
+
 import coursesService from "../../services/coursesService";
 import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
 import { redis } from "../../utils/redis";
-import { withTryCatch } from "../../helper/withTryCatch";
-import mongoose from "mongoose";
 
 const getCourseFromCache = async (courseIdObject: mongoose.Types.ObjectId) => {
   const courseId = courseIdObject.toString();
@@ -34,8 +34,8 @@ const sendResponse = (res: Response, status: number, success: boolean, course: a
 @ Route    GET /api/v1/courses/:id
 @ Access   Public
 */
-export const getCourseWithoutPurchase = withTryCatch(
-  catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+export const getCourseWithoutPurchase = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const courseId = new mongoose.Types.ObjectId(req.params.id);
     let course = await getCourseFromCache(courseId);
 
@@ -48,6 +48,6 @@ export const getCourseWithoutPurchase = withTryCatch(
     }
 
     sendResponse(res, 200, true, course)();
-  }),
+  },
   { message: "Cannot get course" }
 );

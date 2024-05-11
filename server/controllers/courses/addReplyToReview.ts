@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 
 import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
-import { withTryCatch } from "../../helper/withTryCatch";
 import { AddReviewReplyData } from "../../types/Course";
 import coursesService from "../../services/coursesService";
 import { ApiError } from "../../middlewares/errors/ApiError";
@@ -14,8 +13,8 @@ const findReviewById = (reviews: any[], reviewId: mongoose.Types.ObjectId) => re
 @ Route    PUT /api/v1/courses/add-reply
 @ Access   Private
 */
-export const addReplyToReview = withTryCatch(
-  catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+export const addReplyToReview = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { reviewId, courseId, comment } = req.body as AddReviewReplyData;
 
     const course = await coursesService.getCourseById(courseId);
@@ -41,6 +40,6 @@ export const addReplyToReview = withTryCatch(
       success: true,
       course,
     });
-  }),
+  },
   { message: "Something went wrong while adding reply to review. Please try again." }
 );

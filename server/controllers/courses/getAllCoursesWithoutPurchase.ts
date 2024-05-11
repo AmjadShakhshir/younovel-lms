@@ -1,9 +1,8 @@
 import { NextFunction, Response } from "express";
+
 import coursesService from "../../services/coursesService";
 import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
-import { ApiError } from "../../middlewares/errors/ApiError";
 import { redis } from "../../utils/redis";
-import { withTryCatch } from "../../helper/withTryCatch";
 
 const getCoursesFromCache = async () => {
   const cachedCourses = await redis.get("allCourses");
@@ -31,8 +30,8 @@ const sendResponse = (res: Response, status: number, success: boolean, courses: 
 @ Route    GET /api/v1/courses/all-courses
 @ Access   Private/Admin
 */
-export const getAllCoursesWithoutPurchase = withTryCatch(
-  catchAsyncErrors(async (_: any, res: Response, next: NextFunction) => {
+export const getAllCoursesWithoutPurchase = catchAsyncErrors(
+  async (_: any, res: Response, next: NextFunction) => {
     let courses = await getCoursesFromCache();
 
     if (!courses) {
@@ -41,6 +40,6 @@ export const getAllCoursesWithoutPurchase = withTryCatch(
     }
 
     sendResponse(res, 200, true, courses)();
-  }),
+  },
   { message: "Cannot get all courses" }
 );

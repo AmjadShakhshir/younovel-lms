@@ -35,8 +35,8 @@ const handleResponse = async (res: Response, email: string, token: string) => {
 @ Route    POST /api/v1/users/signup
 @ Access   Public
 */
-export const signup = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  try {
+export const signup = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password } = req.body;
     const doesEmailExist = await usersService.findByEmail(email);
     if (doesEmailExist) {
@@ -66,10 +66,9 @@ export const signup = catchAsyncErrors(async (req: Request, res: Response, next:
     } catch (error) {
       next(ApiError.internal("Error sending email"));
     }
-  } catch (error) {
-    next(error);
-  }
-});
+  },
+  { message: "Something went wrong while signing up. Please try again." }
+);
 
 const verifyToken = (token: string, activationCode: string) => {
   const newUser: { user: User; activationCode: string } = jwt.verify(token, process.env.ACTIVATION_SECRET as string) as { user: User; activationCode: string };
@@ -81,8 +80,8 @@ const verifyToken = (token: string, activationCode: string) => {
   return newUser;
 };
 
-export const activateUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  try {
+export const activateUser = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { token, activationCode } = req.body as ActivationToken;
     const newUser = verifyToken(token, activationCode);
 
@@ -96,7 +95,6 @@ export const activateUser = catchAsyncErrors(async (req: Request, res: Response,
       message: "User created successfully",
       success: true,
     });
-  } catch (error) {
-    next(error);
-  }
-});
+  },
+  { message: "Something went wrong while activating user. Please try again." }
+);

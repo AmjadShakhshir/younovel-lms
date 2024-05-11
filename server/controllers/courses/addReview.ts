@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { withTryCatch } from "../../helper/withTryCatch";
+
 import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
 import { ApiError } from "../../middlewares/errors/ApiError";
 import coursesService from "../../services/coursesService";
@@ -29,8 +29,8 @@ const calculateAverageRating = (reviews: any[]) => {
 @ Route    PUT /api/v1/courses/add-review/:id
 @ Access   Private
 */
-export const addReview = withTryCatch(
-  catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+export const addReview = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const userCourseList = req.user?.courses as any[];
     const courseId = new mongoose.Types.ObjectId(req.params.id);
 
@@ -60,6 +60,6 @@ export const addReview = withTryCatch(
       success: true,
       course,
     });
-  }),
+  },
   { message: "Something went wrong while adding review. Please try again." }
 );

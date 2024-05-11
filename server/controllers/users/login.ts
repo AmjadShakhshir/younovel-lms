@@ -10,8 +10,8 @@ import { LoginRequest } from "../../types/User";
 @ Route    POST /api/v1/users/login
 @ Access   Public
 */
-export const loginUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  try {
+export const loginUser = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body as LoginRequest;
     if (!email || !password) {
       return next(ApiError.badRequest("Please provide email and password"));
@@ -29,7 +29,6 @@ export const loginUser = catchAsyncErrors(async (req: Request, res: Response, ne
     }
 
     sendTokenToUser(user, 200, res);
-  } catch (error) {
-    next(ApiError.internal("Internal Server Error"));
-  }
-});
+  },
+  { message: "Something went wrong while logging in. Please try again." }
+);

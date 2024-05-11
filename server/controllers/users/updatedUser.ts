@@ -15,8 +15,8 @@ const sendResponse = (res: Response, status: number, message: string) => () => r
 @ Route    PUT /api/v1/users/update-user
 @ Access   Private
 */
-export const updatedUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  try {
+export const updatedUser = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { name, email } = req.body as UpdateUser;
     const userId = req.user?._id;
 
@@ -41,7 +41,6 @@ export const updatedUser = catchAsyncErrors(async (req: Request, res: Response, 
     await redis.set(userId, JSON.stringify(updatedUser));
 
     sendResponse(res, 200, "User updated successfully")();
-  } catch (error: any) {
-    next(ApiError.internal("Something went wrong while updating user"));
-  }
-});
+  },
+  { message: "Something went wrong while updating user. Please try again." }
+);

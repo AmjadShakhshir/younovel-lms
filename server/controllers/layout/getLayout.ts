@@ -1,12 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 
-import { withTryCatch } from "../../helper/withTryCatch";
 import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
 import layoutService from "../../services/layoutService";
 import { ApiError } from "../../middlewares/errors/ApiError";
 
-export const getLayout = withTryCatch(
-  catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+export const getLayout = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const layoutType = req.body.type;
     const layout = await layoutService.findOne(layoutType);
     if (!layout) {
@@ -16,6 +15,6 @@ export const getLayout = withTryCatch(
       success: true,
       layout,
     });
-  }),
+  },
   { message: "Something went wrong while fetching layout. Please try again." }
 );

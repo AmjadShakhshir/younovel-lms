@@ -3,8 +3,7 @@ import { NextFunction, Response, Request } from "express";
 import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
 import { ApiError } from "../../middlewares/errors/ApiError";
 import coursesService from "../../services/coursesService";
-import { withTryCatch } from "../../helper/withTryCatch";
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 // refactor it using FP and composability
 /*
@@ -12,8 +11,8 @@ import mongoose, { mongo } from "mongoose";
 @ Route    GET /api/v1/courses/:id/content
 @ Access   Private
 */
-export const getCourseContentForPurchasedUser = withTryCatch(
-  catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+export const getCourseContentForPurchasedUser = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const userCourseList = req.user?.courses;
     const courseId = new mongoose.Types.ObjectId(req.params.id);
 
@@ -30,6 +29,6 @@ export const getCourseContentForPurchasedUser = withTryCatch(
       success: true,
       content: courseContent,
     });
-  }),
+  },
   { message: "Cannot get course content wihtout purchase" }
 );

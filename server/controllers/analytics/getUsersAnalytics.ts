@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-import { withTryCatch } from "../../helper/withTryCatch";
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
 
+import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
 import analyticsService from "../../services/analyticsService";
 
 /* 
@@ -9,10 +8,10 @@ import analyticsService from "../../services/analyticsService";
 @Route GET /api/v1/analytics/users
 @Access Private/Admin
 */
-export const getUsersAnalytics = withTryCatch(
-  catchAsyncErrors(async (req: Request, res: Response) => {
+export const getUsersAnalytics = catchAsyncErrors(
+  async (req: Request, res: Response) => {
     const usersAnalytics = await analyticsService.getUsersAnalytics();
     res.status(200).json({ success: true, users: usersAnalytics });
-  }),
+  },
   { message: "Something went wrong while fetching users analytics. Please try again." }
 );

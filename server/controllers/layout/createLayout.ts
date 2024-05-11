@@ -3,7 +3,6 @@ import cloudinary from "cloudinary";
 
 import layoutService from "../../services/layoutService";
 import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
-import { withTryCatch } from "../../helper/withTryCatch";
 import { ApiError } from "../../middlewares/errors/ApiError";
 
 const createBannerLayout = async (body: any) => {
@@ -45,8 +44,8 @@ const layoutCreators = {
 @route    POST /api/v1/layout/create-layout
 @access   Private (Admin only)
 */
-export const createLayout = withTryCatch(
-  catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+export const createLayout = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { type } = req.body;
     const isTypeExist = await layoutService.findOne(type);
     if (isTypeExist) {
@@ -62,6 +61,6 @@ export const createLayout = withTryCatch(
       success: true,
       message: "Layout created successfully",
     });
-  }),
+  },
   { message: "Something went wrong while creating layout. Please try again." }
 );

@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import cloudinary from "cloudinary";
+import mongoose from "mongoose";
 
 import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
 import coursesService from "../../services/coursesService";
 import { ApiError } from "../../middlewares/errors/ApiError";
-import { withTryCatch } from "../../helper/withTryCatch";
-import mongoose from "mongoose";
 
 const uploadThumbnail = async (thumbnail: string) => {
   const result = await cloudinary.v2.uploader.upload(thumbnail, {
@@ -33,8 +32,8 @@ const sendResponse = (res: Response, status: number, course: any) => () =>
 @ Route    PUT /api/v1/courses/:id
 @ Access   Private/Admin
 */
-export const updateCourse = withTryCatch(
-  catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+export const updateCourse = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const courseData = req.body;
     if (!courseData) {
       return next(ApiError.badRequest("You need to provide course data to update course"));
@@ -51,6 +50,6 @@ export const updateCourse = withTryCatch(
       return next(ApiError.resourceNotFound("Course not found"));
     }
     sendResponse(res, 201, course)();
-  }),
+  },
   { message: "Something went wrong while updating course. Please try again." }
 );

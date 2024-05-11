@@ -4,15 +4,14 @@ import cloudinary from "cloudinary";
 import { ApiError } from "../../middlewares/errors/ApiError";
 import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
 import coursesService from "../../services/coursesService";
-import { withTryCatch } from "../../helper/withTryCatch";
 
 /*
 @ Desc     Upload course
 @ Route    POST /api/v1/courses/create-course
 @ Access   Private/Admin
 */
-export const uploadCourse = withTryCatch(
-  catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+export const uploadCourse = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const courseData = req.body;
     const thumbnail = courseData.thumbnail;
     if (thumbnail) {
@@ -33,6 +32,6 @@ export const uploadCourse = withTryCatch(
       success: true,
       course,
     });
-  }),
+  },
   { message: "Something went wrong while uploading course. Please try again." }
 );

@@ -4,7 +4,6 @@ import path from "path";
 import ejs from "ejs";
 
 import sendEmail from "../../utils/sendEmail";
-import { withTryCatch } from "../../helper/withTryCatch";
 import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
 import ordersService from "../../services/ordersService";
 import usersService from "../../services/usersService";
@@ -83,8 +82,8 @@ const updateUserCourses = async (user: any, courseId: mongoose.Types.ObjectId, n
 @ Route    POST /api/v1/orders/create-order
 @ Access   Private
 */
-export const createOrder = withTryCatch(
-  catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+export const createOrder = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     validateRequestData(req, next);
 
     const { courseId } = req.body;
@@ -122,6 +121,6 @@ export const createOrder = withTryCatch(
       order: orderData,
       message: "Order placed successfully",
     });
-  }),
+  },
   { message: "Something went wrong while creating order. Please try again." }
 );

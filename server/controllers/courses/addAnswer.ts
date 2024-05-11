@@ -6,7 +6,6 @@ import mongoose from "mongoose";
 import path from "path";
 import ejs from "ejs";
 import sendEmail from "../../utils/sendEmail";
-import { withTryCatch } from "../../helper/withTryCatch";
 import usersService from "../../services/usersService";
 import notificationService from "../../services/notificationService";
 
@@ -26,8 +25,8 @@ const createNewAnswer = (user: any, answer: string) => ({
 @Route    PUT /api/v1/courses/add-answer
 @Access   Private
 */
-export const addAnswer = withTryCatch(
-  catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+export const addAnswer = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { answer, courseId, contentId, questionId } = req.body;
 
     const course = await coursesService.getCourseById(courseId);
@@ -85,6 +84,6 @@ export const addAnswer = withTryCatch(
       success: true,
       course,
     });
-  }),
+  },
   { message: "Something went wrong while adding answer. Please try again." }
 );

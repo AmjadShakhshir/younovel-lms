@@ -5,7 +5,6 @@ import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
 import { ApiError } from "../../middlewares/errors/ApiError";
 import { AddQuestionData } from "../../types/Course";
 import coursesService from "../../services/coursesService";
-import { withTryCatch } from "../../helper/withTryCatch";
 import notificationService from "../../services/notificationService";
 
 const isValidContentId = (contentId: string) => mongoose.Types.ObjectId.isValid(contentId);
@@ -23,8 +22,8 @@ const createNewQuestion = (user: any, question: string) => ({
 @ Route    PUT /api/v1/courses/add-question
 @ Access   Private
 */
-export const addQuestion = withTryCatch(
-  catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+export const addQuestion = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { question, courseId, contentId }: AddQuestionData = req.body;
     const courseIdObject = new mongoose.Types.ObjectId(courseId);
     const course = await coursesService.getCourseById(courseIdObject);
@@ -52,6 +51,6 @@ export const addQuestion = withTryCatch(
       success: true,
       course,
     });
-  }),
+  },
   { message: "Something went wrong while adding question. Please try again." }
 );

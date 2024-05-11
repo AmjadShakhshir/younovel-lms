@@ -2,15 +2,16 @@ import { NextFunction, Response, Request } from "express";
 import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
 import { ApiError } from "../../middlewares/errors/ApiError";
 import usersService from "../../services/usersService";
+import mongoose, { ObjectId } from "mongoose";
 
 /*
 @ Desc     Get user
 @ Route    GET /api/v1/users/me
 @ Access   Private
 */
-export const getUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const userId: string = req.user?._id;
+export const getUser = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId: mongoose.Types.ObjectId = req.user?._id;
     if (!userId) {
       next(ApiError.badRequest("Invalid user"));
     }
@@ -22,7 +23,6 @@ export const getUser = catchAsyncErrors(async (req: Request, res: Response, next
       success: true,
       user,
     });
-  } catch (error: any) {
-    next(ApiError.internal("Something went wrong while getting user"));
-  }
-});
+  },
+  { message: "Something went wrong while fetching user. Please try again." }
+);

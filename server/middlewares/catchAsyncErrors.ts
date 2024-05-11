@@ -1,7 +1,12 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
+import { ApiError } from "../middlewares/errors/ApiError";
 
-export const catchAsyncErrors = (fn: Function) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    Promise.resolve(fn(req, res, next)).catch(next);
+export const catchAsyncErrors = (fn: Function, errorMessage: { message: string }) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      return await fn(req, res, next);
+    } catch (error: any) {
+      next(ApiError.badRequest(errorMessage.message));
+    }
   };
 };

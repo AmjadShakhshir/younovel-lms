@@ -13,8 +13,8 @@ const sendResponse = (res: Response, status: number, message: string) => () => r
 @ Route    PUT /api/v1/users/update-password
 @ Access   Private
 */
-export const updatePassword = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  try {
+export const updatePassword = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { oldPassword, newPassword } = req.body as UpdatePassword;
     const userId = req.user?._id;
 
@@ -30,7 +30,6 @@ export const updatePassword = catchAsyncErrors(async (req: Request, res: Respons
 
     await redis.set(userId, JSON.stringify(updatedPassword));
     sendResponse(res, 200, "Password updated successfully")();
-  } catch (error: any) {
-    next(ApiError.internal("Something went wrong while updating password"));
-  }
-});
+  },
+  { message: "Something went wrong while updating password. Please try again." }
+);

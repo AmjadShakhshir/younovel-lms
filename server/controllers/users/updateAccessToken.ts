@@ -13,8 +13,8 @@ import { accessTokenOptions, refreshTokenOptions } from "../../utils/tokenOption
 @ Route    POST /api/v1/users/update-access-token
 @ Access   Private
 */
-export const updateAccessToken = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  try {
+export const updateAccessToken = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const refresh_token = req.cookies.refresh_token as string;
     if (!refresh_token) {
       return next(ApiError.forbidden("You need to login to access this resource"));
@@ -45,7 +45,6 @@ export const updateAccessToken = catchAsyncErrors(async (req: Request, res: Resp
       success: true,
       accessToken,
     });
-  } catch (error: any) {
-    next(ApiError.internal("Something went wrong while updating access token"));
-  }
-});
+  },
+  { message: "Something went wrong while updating access token. Please try again." }
+);

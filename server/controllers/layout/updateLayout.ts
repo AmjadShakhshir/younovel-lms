@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import cloudinary from "cloudinary";
 
 import layoutService from "../../services/layoutService";
-import { withTryCatch } from "../../helper/withTryCatch";
+import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
 
 const updateBannerLayout = async (body: any) => {
   const bannerExisted: any = await layoutService.findOne("Banner");
@@ -46,7 +46,7 @@ const layoutUpdaters = {
 @route    PUT /api/v1/layout/update-layout
 @access   Private (Admin only)
 */
-export const updateLayout = withTryCatch(
+export const updateLayout = catchAsyncErrors(
   async (req: Request, res: Response) => {
     const { type } = req.body;
     const updateLayoutFunction = layoutUpdaters[type as keyof typeof layoutUpdaters];

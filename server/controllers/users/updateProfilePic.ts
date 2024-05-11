@@ -35,8 +35,8 @@ const sendResponse = (res: Response, status: number, user: User) => () =>
 @ Route    PUT /api/v1/users/update-profile-pic
 @ Access   Private
 */
-export const updateProfilePic = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  try {
+export const updateProfilePic = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { avatar } = req.body;
     if (!avatar) {
       return next(ApiError.badRequest("Please upload an image"));
@@ -54,7 +54,6 @@ export const updateProfilePic = catchAsyncErrors(async (req: Request, res: Respo
       await redis.set(userId, JSON.stringify(user));
       sendResponse(res, 200, user)();
     }
-  } catch (error: any) {
-    next(ApiError.internal("Something went wrong while updating profile picture"));
-  }
-});
+  },
+  { message: "Something went wrong while updating profile picture. Please try again." }
+);

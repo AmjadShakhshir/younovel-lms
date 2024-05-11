@@ -1,15 +1,14 @@
 import { NextFunction, Response, Request } from "express";
 import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
 import { redis } from "../../utils/redis";
-import { ApiError } from "../../middlewares/errors/ApiError";
 
 /*
 @ Desc     Logout user
 @ Route    POST /api/v1/users/logout
 @ Access   Private
 */
-export const logout = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  try {
+export const logout = catchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
     res.cookie("access_token", "", { maxAge: 1 });
     res.cookie("refresh_token", "", { maxAge: 1 });
 
@@ -20,7 +19,6 @@ export const logout = catchAsyncErrors(async (req: Request, res: Response, next:
       success: true,
       message: "Logged out successfully",
     });
-  } catch (error: any) {
-    next(ApiError.internal("Something went wrong while logging out"));
-  }
-});
+  },
+  { message: "Something went wrong while logging out. Please try again." }
+);
