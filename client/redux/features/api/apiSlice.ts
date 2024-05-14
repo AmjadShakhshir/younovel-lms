@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { userLoggedIn } from "../auth/authSlice";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const apiSlice = createApi({
   reducerPath: "api",
