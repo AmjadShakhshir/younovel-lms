@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 
 import analyticsService from "../../services/analyticsService";
 

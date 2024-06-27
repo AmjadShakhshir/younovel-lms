@@ -1,4 +1,3 @@
-import { Request } from "express";
 import { User } from "../types/User";
 
 declare global {
