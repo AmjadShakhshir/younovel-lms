@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
+import { fileURLToPath } from "url";
 
 import { apiErrorHandler } from "./middlewares/apiErrorHandler";
 import { routeNotFound } from "./middlewares/routeNotFound";
@@ -12,6 +13,10 @@ import orderRouter from "./routes/orderRoute";
 import notificationRouter from "./routes/notificationRoute";
 import analyticsRouter from "./routes/analyticsRoute";
 import layoutRouter from "./routes/layoutRoute";
+import trainerRouter from "./routes/trainersRoute";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -32,6 +37,7 @@ app.use("/api/v1/orders", loggingMiddleware, orderRouter);
 app.use("/api/v1/notifications", loggingMiddleware, notificationRouter);
 app.use("/api/v1/analytics", loggingMiddleware, analyticsRouter);
 app.use("/api/v1/layout", loggingMiddleware, layoutRouter);
+app.use("/api/v1/trainers", loggingMiddleware, trainerRouter);
 
 app.get("/test", loggingMiddleware, (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json({
