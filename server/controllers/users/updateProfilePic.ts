@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import cloudinary from "cloudinary";
 
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import usersService from "../../services/usersService";
 import { ApiError } from "../../middlewares/errors/ApiError";
-import { redis } from "../../utils/redis";
 import { User } from "../../types/User";
 
 const uploadAvatar = async (avatar: string) => {
@@ -51,7 +50,6 @@ export const updateProfilePic = catchAsyncErrors(
       }
       user.avatar = await uploadAvatar(avatar);
       await user.save();
-      await redis.set(userId, JSON.stringify(user));
       sendResponse(res, 200, user)();
     }
   },

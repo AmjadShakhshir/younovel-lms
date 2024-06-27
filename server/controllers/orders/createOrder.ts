@@ -4,7 +4,7 @@ import path from "path";
 import ejs from "ejs";
 
 import sendEmail from "../../utils/sendEmail";
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import ordersService from "../../services/ordersService";
 import usersService from "../../services/usersService";
 import { ApiError } from "../../middlewares/errors/ApiError";

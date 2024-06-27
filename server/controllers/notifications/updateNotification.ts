@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from "express";
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import notificationService from "../../services/notificationService";
 
 /*

@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from "express";
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import { ApiError } from "../../middlewares/errors/ApiError";
 import usersService from "../../services/usersService";
 import mongoose, { ObjectId } from "mongoose";

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import cloudinary from "cloudinary";
 
 import layoutService from "../../services/layoutService";
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 
 const updateBannerLayout = async (body: any) => {
   const bannerExisted: any = await layoutService.findOne("Banner");

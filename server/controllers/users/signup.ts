@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import usersService from "../../services/usersService";
 import { ActivationToken, RegisterationBody, User } from "../../types/User";
 import { createActivationToken } from "../../utils/manageTokens";
@@ -9,14 +9,14 @@ import { emailTemplate } from "../../utils/emailTemplate";
 import sendEmail from "../../utils/sendEmail";
 import { ApiError } from "../../middlewares/errors/ApiError";
 
-const createUser = async (name: string, email: string, password: string) => {
-  try {
+const createUser = catchAsyncErrors(
+  async (req: Request, res: Response) => {
+    const { name, email, password } = req.body;
     const newUser = await usersService.signUp({ name, email, password });
     return newUser;
-  } catch (error: any) {
-    throw ApiError.internal(error.message);
-  }
-};
+  },
+  { message: "Error creating user" }
+);
 
 const prepareEmailData = (user: RegisterationBody, activationCode: string) => {
   return { user: { name: user.name }, activationCode };
@@ -85,8 +85,8 @@ export const activateUser = catchAsyncErrors(
     const { token, activationCode } = req.body as ActivationToken;
     const newUser = verifyToken(token, activationCode);
 
-    const { name, email, password } = newUser.user;
-    const user = await createUser(name, email, password);
+    req.body = newUser.user;
+    const user = await createUser(req, res, next);
     if (!user) {
       throw ApiError.internal("Error creating user");
     }

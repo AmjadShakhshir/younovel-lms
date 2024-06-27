@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import usersService from "../../services/usersService";
 import { ApiError } from "../../middlewares/errors/ApiError";
 import { sendTokenToUser } from "../../utils/manageTokens";

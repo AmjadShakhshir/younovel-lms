@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import UserRepo from "../models/UserModel";
 import { LoginRequest, RegisterationBody, SocialAuthBody, UpdateUser, User } from "../types/User";
-import { redis } from "../utils/redis";
 
 const findAll = async () => {
   const users = await UserRepo.find().sort({ createdAt: -1 });
@@ -36,7 +35,7 @@ const findByEmail = async (email: string) => {
 
 const findById = async (id: mongoose.Types.ObjectId) => {
   const userId = id.toString();
-  const user = await redis.get(userId);
+  const user = await UserRepo.findById(userId);
   return user;
 };
 

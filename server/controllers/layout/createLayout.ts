@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import cloudinary from "cloudinary";
 
 import layoutService from "../../services/layoutService";
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import { ApiError } from "../../middlewares/errors/ApiError";
 
 const createBannerLayout = async (body: any) => {

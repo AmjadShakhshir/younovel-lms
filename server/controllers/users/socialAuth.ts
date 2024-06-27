@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from "express";
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import usersService from "../../services/usersService";
 import { sendTokenToUser } from "../../utils/manageTokens";
 import { SocialAuthBody } from "../../types/User";
@@ -10,7 +10,7 @@ import { SocialAuthBody } from "../../types/User";
 @ Access   Public
 */
 export const socialAuth = catchAsyncErrors(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response) => {
     const { email, name, avatar } = req.body as SocialAuthBody;
     const user = await usersService.findByEmail(email);
     if (!user) {
