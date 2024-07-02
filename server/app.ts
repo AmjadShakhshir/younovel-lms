@@ -22,7 +22,7 @@ const app = express();
 app.use(express.json({ limit: "50mb" }));
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001", "https://younovel-lms.vercel.app"],
+    origin: ["http://localhost:3000", "http://localhost:3001", "https://younovel-dashboard.vercel.app", "https://younovel-front.vercel.app"],
     credentials: true,
   })
 );
