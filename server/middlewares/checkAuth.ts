@@ -3,9 +3,8 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 
-import { catchAsyncErrors } from "./catchAsyncErrors";
+import { catchAsyncErrors } from "../utils/catchAsyncErrors";
 import { ApiError } from "./errors/ApiError";
-import { redis } from "../utils/redis";
 
 const decodingAccessToken = async (access_token: string, next: NextFunction) => {
   try {
@@ -25,13 +24,11 @@ export const isAuthenticated = catchAsyncErrors(
     }
 
     const decoded = await decodingAccessToken(access_token, next);
-
-    const user = decoded && (await redis.get(decoded.id));
-    if (!user) {
+    if (!decoded) {
       return next(ApiError.forbidden("Please login to access this resource"));
     }
 
-    req.user = JSON.parse(user);
+    req.user = decoded;
     next();
   },
   { message: "Something went wrong while verifying user" }

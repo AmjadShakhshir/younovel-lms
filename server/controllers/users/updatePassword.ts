@@ -1,9 +1,8 @@
 import { NextFunction, Response, Request } from "express";
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import { ApiError } from "../../middlewares/errors/ApiError";
 import usersService from "../../services/usersService";
 import { UpdatePassword } from "../../types/User";
-import { redis } from "../../utils/redis";
 
 const isValidPassword = ({ oldPassword, newPassword }: UpdatePassword) => oldPassword && newPassword;
 const sendResponse = (res: Response, status: number, message: string) => () => res.status(status).json({ success: true, message });
@@ -28,7 +27,6 @@ export const updatePassword = catchAsyncErrors(
       return next(ApiError.resourceNotFound("User not found"));
     }
 
-    await redis.set(userId, JSON.stringify(updatedPassword));
     sendResponse(res, 200, "Password updated successfully")();
   },
   { message: "Something went wrong while updating password. Please try again." }

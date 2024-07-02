@@ -21,10 +21,6 @@ export interface Review extends Document {
 export interface CourseData extends Document {
   title: string;
   description: string;
-  videoUrl: string;
-  videoSection: string;
-  videoLength: number;
-  videoPlayer: string;
   links: Link[];
   suggestion: string;
   questions: Comment[];
@@ -44,7 +40,6 @@ export interface Course extends Document {
   reviews: Review[];
   courseData: CourseData[];
   ratings?: number;
-  purchased?: number;
 }
 
 export interface CourseUpdate {
@@ -61,7 +56,6 @@ export interface CourseUpdate {
   reviews?: Review[];
   courseData?: CourseData[];
   ratings?: number;
-  purchased?: number;
 }
 
 export interface AddQuestionData {

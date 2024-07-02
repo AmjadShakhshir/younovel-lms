@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import layoutService from "../../services/layoutService";
 import { ApiError } from "../../middlewares/errors/ApiError";
 

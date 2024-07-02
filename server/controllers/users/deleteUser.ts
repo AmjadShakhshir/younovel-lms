@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import usersService from "../../services/usersService";
-import { redis } from "../../utils/redis";
 import mongoose from "mongoose";
 /* 
 @ Desc     Delete a user
@@ -11,10 +10,11 @@ import mongoose from "mongoose";
 */
 export const deleteUser = catchAsyncErrors(
   async (req: Request, res: Response) => {
+    console.log("Delete user");
     const id = req.params.id;
     const userId = new mongoose.Types.ObjectId(id);
+    console.log("userId", userId);
     await usersService.deleteUser(userId);
-    await redis.del(id);
     res.status(200).json({ success: true, message: "User deleted successfully" });
   },
   { message: "Something went wrong while deleting user. Please try again." }

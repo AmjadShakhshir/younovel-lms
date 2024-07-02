@@ -1,8 +1,8 @@
 import { NextFunction, Response, Request } from "express";
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import { ApiError } from "../../middlewares/errors/ApiError";
 import usersService from "../../services/usersService";
-import mongoose, { ObjectId } from "mongoose";
+import mongoose from "mongoose";
 
 /*
 @ Desc     Get user
@@ -11,7 +11,7 @@ import mongoose, { ObjectId } from "mongoose";
 */
 export const getUser = catchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
-    const userId: mongoose.Types.ObjectId = req.user?._id;
+    const userId = req.user?.id as string;
     if (!userId) {
       next(ApiError.badRequest("Invalid user"));
     }

@@ -1,44 +1,38 @@
 import { NextFunction, Response, Request } from "express";
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import { ApiError } from "../../middlewares/errors/ApiError";
 import usersService from "../../services/usersService";
 import { UpdateUser } from "../../types/User";
-import { redis } from "../../utils/redis";
+import mongoose from "mongoose";
 
-const isValidUser = ({ name, email }: UpdateUser) => name || email;
-const isUniqueEmail = async (email: string) => !(await usersService.findByEmail(email));
+const isValidUser = ({ name, position, description, qualification }: UpdateUser) => name || position || description || qualification;
 const isUniqueName = async (name: string) => !(await usersService.findByName(name));
 const sendResponse = (res: Response, status: number, message: string) => () => res.status(status).json({ success: true, message });
 
 /*
 @ Desc     Update user
-@ Route    PUT /api/v1/users/update-user
+@ Route    PUT /api/v1/users/update
 @ Access   Private
 */
 export const updatedUser = catchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { name, email } = req.body as UpdateUser;
-    const userId = req.user?._id;
+    const { name, position, description, qualification } = req.body as UpdateUser;
 
-    if (!isValidUser({ name, email })) {
-      return next(ApiError.badRequest("Name or email are required"));
-    }
+    const userId = req.user?.id as unknown as mongoose.Types.ObjectId;
 
-    if (!(await isUniqueEmail(email as string))) {
-      return next(ApiError.badRequest("Email already exists"));
+    if (!isValidUser({ name, position, description, qualification })) {
+      return next(ApiError.badRequest("Name, Position, Description or Qualification are required"));
     }
 
     if (!(await isUniqueName(name as string))) {
       return next(ApiError.badRequest("Name already exists"));
     }
 
-    const updatedUser = await usersService.updateUser(userId, { name, email });
+    const updatedUser = await usersService.updateUser(userId, req.body as UpdateUser);
 
     if (!updatedUser) {
       return next(ApiError.badRequest("User not found"));
     }
-
-    await redis.set(userId, JSON.stringify(updatedUser));
 
     sendResponse(res, 200, "User updated successfully")();
   },

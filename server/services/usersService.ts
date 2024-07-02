@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import UserRepo from "../models/UserModel";
 import { LoginRequest, RegisterationBody, SocialAuthBody, UpdateUser, User } from "../types/User";
-import { redis } from "../utils/redis";
 
 const findAll = async () => {
   const users = await UserRepo.find().sort({ createdAt: -1 });
@@ -9,8 +8,12 @@ const findAll = async () => {
 };
 
 const signUp = async (user: RegisterationBody) => {
-  const newUser = new UserRepo(user);
-  return await newUser.save();
+  try {
+    const newUser = new UserRepo(user);
+    return await newUser.save();
+  } catch (error) {
+    console.log("Error signing up", error);
+  }
 };
 
 const socialAuthSignup = async (socialAuthInfo: SocialAuthBody) => {
@@ -34,10 +37,13 @@ const findByEmail = async (email: string) => {
   return emailFoundInDB;
 };
 
-const findById = async (id: mongoose.Types.ObjectId) => {
-  const userId = id.toString();
-  const user = await redis.get(userId);
-  return user;
+const findById = async (id: string) => {
+  try {
+    const user = await UserRepo.findById(id);
+    return user;
+  } catch (error) {
+    console.log("Error finding user by id", error);
+  }
 };
 
 const findByName = async (name: string) => {
@@ -46,8 +52,12 @@ const findByName = async (name: string) => {
 };
 
 const updateUser = async (id: mongoose.Types.ObjectId, userUpdatedInfo: UpdateUser) => {
-  const updatedUser = await UserRepo.findByIdAndUpdate(id, userUpdatedInfo, { new: true });
-  return updatedUser;
+  try {
+    const updatedUser = await UserRepo.findByIdAndUpdate(id, userUpdatedInfo, { new: true });
+    return updatedUser;
+  } catch (error) {
+    console.log("Error updating user", error);
+  }
 };
 
 const updatePassword = async (id: mongoose.Types.ObjectId, oldPassword: string, newPassword: string) => {
@@ -65,12 +75,15 @@ const updatePassword = async (id: mongoose.Types.ObjectId, oldPassword: string, 
 };
 
 const updateAvatar = async (id: mongoose.Types.ObjectId, avatar: string) => {
-  const updatedUserAvatar = await UserRepo.findByIdAndUpdate(id, { avatar }, { new: true });
-  return updatedUserAvatar;
+  try {
+    const updatedUserAvatar = await UserRepo.findByIdAndUpdate(id, { avatar }, { new: true });
+    return updatedUserAvatar;
+  } catch (error) {
+    console.log("Error updating avatar", error);
+  }
 };
 
 const updateUserRole = async (id: mongoose.Types.ObjectId, role: string) => {
-  console.log(id, role);
   const updatedUserRole = await UserRepo.findByIdAndUpdate(id, { role }, { new: true });
   return updatedUserRole;
 };

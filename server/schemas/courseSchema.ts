@@ -40,10 +40,6 @@ const commentBodySchema = z.object({
 const courseDataSchema = z.object({
   title: z.string(),
   description: z.string(),
-  videoUrl: z.string(),
-  videoSection: z.string(),
-  videoLength: z.number(),
-  videoPlayer: z.string(),
   links: z.array(linkBodySchema),
   suggestion: z.string(),
   questions: z.array(commentBodySchema),
@@ -74,7 +70,6 @@ const courseSchema = z.object({
   reviews: z.array(reviewBodySchema),
   courseData: z.array(courseDataSchema),
   ratings: z.number().optional(),
-  purchased: z.number().optional(),
 });
 
 export const CourseSchema = z.object({
@@ -112,7 +107,6 @@ const courseUpdateBodySchema = z.object({
   reviews: z.array(reviewBodySchema).optional(),
   courseData: z.array(courseDataSchema).optional(),
   ratings: z.number().optional(),
-  purchased: z.number().optional(),
 });
 
 export const CourseUpdateSchema = z.object({

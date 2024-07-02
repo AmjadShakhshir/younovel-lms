@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import cloudinary from "cloudinary";
 
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import usersService from "../../services/usersService";
 import { ApiError } from "../../middlewares/errors/ApiError";
-import { redis } from "../../utils/redis";
 import { User } from "../../types/User";
+import mongoose from "mongoose";
 
 const uploadAvatar = async (avatar: string) => {
   const result = await cloudinary.v2.uploader.upload(avatar, {
@@ -38,20 +38,20 @@ const sendResponse = (res: Response, status: number, user: User) => () =>
 export const updateProfilePic = catchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     const { avatar } = req.body;
+
     if (!avatar) {
       return next(ApiError.badRequest("Please upload an image"));
     }
-    const userId = req.user?._id;
+    const userId = req.user?.id as unknown as mongoose.Types.ObjectId;
 
-    const user = await usersService.updateAvatar(userId, avatar);
+    const user = await usersService.updateAvatar(userId, avatar.avatar);
 
     if (avatar && user) {
       if (user?.avatar?.public_id) {
         await destroyAvatar(user.avatar.public_id);
       }
-      user.avatar = await uploadAvatar(avatar);
+      user.avatar = await uploadAvatar(avatar.avatar);
       await user.save();
-      await redis.set(userId, JSON.stringify(user));
       sendResponse(res, 200, user)();
     }
   },

@@ -2,23 +2,27 @@ import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
+import { fileURLToPath } from "url";
 
 import { apiErrorHandler } from "./middlewares/apiErrorHandler";
 import { routeNotFound } from "./middlewares/routeNotFound";
 import { loggingMiddleware } from "./middlewares/logging";
 import userRouter from "./routes/userRoute";
 import courseRouter from "./routes/courseRoute";
-import orderRouter from "./routes/orderRoute";
 import notificationRouter from "./routes/notificationRoute";
-import analyticsRouter from "./routes/analyticsRoute";
 import layoutRouter from "./routes/layoutRoute";
+import contactRouter from "./routes/contactRoute";
+import videoRouter from "./routes/videoRoute";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
 app.use(express.json({ limit: "50mb" }));
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://younovel-lms.vercel.app"],
+    origin: ["http://localhost:3000", "http://localhost:3001", "https://younovel-lms.vercel.app"],
     credentials: true,
   })
 );
@@ -28,10 +32,10 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/v1/users", loggingMiddleware, userRouter);
 app.use("/api/v1/courses", loggingMiddleware, courseRouter);
-app.use("/api/v1/orders", loggingMiddleware, orderRouter);
 app.use("/api/v1/notifications", loggingMiddleware, notificationRouter);
-app.use("/api/v1/analytics", loggingMiddleware, analyticsRouter);
 app.use("/api/v1/layout", loggingMiddleware, layoutRouter);
+app.use("/api/v1/contact", loggingMiddleware, contactRouter);
+app.use("/api/v1/videos", loggingMiddleware, videoRouter);
 
 app.get("/test", loggingMiddleware, (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json({

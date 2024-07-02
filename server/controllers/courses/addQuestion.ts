@@ -1,7 +1,7 @@
 import { NextFunction, Response, Request } from "express";
 import mongoose from "mongoose";
 
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import { ApiError } from "../../middlewares/errors/ApiError";
 import { AddQuestionData } from "../../types/Course";
 import coursesService from "../../services/coursesService";

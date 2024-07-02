@@ -4,9 +4,7 @@ import { authorizeRoles, isAuthenticated } from "../middlewares/checkAuth";
 import { updateCourse } from "../controllers/courses/updateCourse";
 import { validate } from "../middlewares/validate";
 import { CourseSchema, CourseUpdateSchema } from "../schemas/courseSchema";
-import { getCourseWithoutPurchase } from "../controllers/courses/getCourseWithoutPurchase";
-import { getAllCoursesWithoutPurchase } from "../controllers/courses/getAllCoursesWithoutPurchase";
-import { getCourseContentForPurchasedUser } from "../controllers/courses/getCourseContentForPurchasedUser";
+import { getCourse } from "../controllers/courses/getCourse";
 import { addQuestion } from "../controllers/courses/addQuestion";
 import { addAnswer } from "../controllers/courses/addAnswer";
 import { addReview } from "../controllers/courses/addReview";
@@ -16,16 +14,14 @@ import { deleteCourse } from "../controllers/courses/deleteCourse";
 
 const courseRouter = express.Router();
 
-courseRouter.get("/all-courses", isAuthenticated, authorizeRoles("admin"), getAllCourses);
-courseRouter.get("/get-courses", getAllCoursesWithoutPurchase);
-courseRouter.get("/get-course/:id", getCourseWithoutPurchase);
-courseRouter.get("/get-course-content/:id", isAuthenticated, getCourseContentForPurchasedUser);
-courseRouter.post("/create-course", isAuthenticated, authorizeRoles("admin"), uploadCourse);
-courseRouter.put("/update-course/:id", isAuthenticated, authorizeRoles("admin"), updateCourse);
+courseRouter.get("/", getAllCourses);
+courseRouter.get("/:id", getCourse);
+courseRouter.post("/create", isAuthenticated, uploadCourse);
+courseRouter.put("/update/:id", isAuthenticated, updateCourse);
 courseRouter.put("/add-question", isAuthenticated, addQuestion);
 courseRouter.put("/add-answer", isAuthenticated, addAnswer);
 courseRouter.put("/add-review/:id", isAuthenticated, addReview);
 courseRouter.put("/add-reply", isAuthenticated, authorizeRoles("admin"), addReplyToReview);
-courseRouter.delete("/delete-course/:id", isAuthenticated, authorizeRoles("admin"), deleteCourse);
+courseRouter.delete("/delete/:id", isAuthenticated, deleteCourse);
 
 export default courseRouter;

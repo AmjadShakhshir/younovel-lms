@@ -1,6 +1,5 @@
 import { NextFunction, Response, Request } from "express";
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
-import { redis } from "../../utils/redis";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 
 /*
 @ Desc     Logout user
@@ -13,7 +12,6 @@ export const logout = catchAsyncErrors(
     res.cookie("refresh_token", "", { maxAge: 1 });
 
     const userId = req.user?._id;
-    await redis.del(userId);
 
     res.status(200).json({
       success: true,

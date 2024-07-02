@@ -30,10 +30,6 @@ const commentSchema = new Schema<Comment>({
 const courseDataSchema = new Schema({
   title: String,
   description: String,
-  videoUrl: String,
-  videoSection: String,
-  videoLength: Number,
-  videoPlayer: String,
   links: [linkSchema],
   suggestion: String,
   questions: [commentSchema],
@@ -81,10 +77,6 @@ const courseSchema = new Schema<Course>(
     reviews: [reviewSchema],
     courseData: [courseDataSchema],
     ratings: {
-      type: Number,
-      default: 0,
-    },
-    purchased: {
       type: Number,
       default: 0,
     },

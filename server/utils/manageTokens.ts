@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { ActivationToken, User } from "../types/User";
-import { redis } from "./redis";
 import { accessTokenOptions, refreshTokenOptions } from "./tokenOptions";
 
 export const createActivationToken = (user: any): ActivationToken => {
@@ -25,9 +24,6 @@ export const createActivationToken = (user: any): ActivationToken => {
 export const sendTokenToUser = (user: User, statusCode: number, res: Response) => {
   const accessToken = user.SignAccessToken();
   const refreshToken = user.SignRefreshToken();
-
-  // upload session
-  redis.set(user._id, JSON.stringify(user) as any);
 
   if (process.env.NODE_ENV === "production") {
     accessTokenOptions.secure = true;

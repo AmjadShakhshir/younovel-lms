@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ApiError } from "./errors/ApiError";
 import { monitorRequest } from "./logging";
 
-const paths = /^(\/stories|\/categories|\/chapters)/;
+const paths = /^(\/users|\/analytics|\/courses|\/layout|\/notifications|\/orders)/;
 
 const handleApiError = (error: ApiError, res: Response) => {
   res.status(error.code).json({ message: error.message });

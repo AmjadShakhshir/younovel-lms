@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import cloudinary from "cloudinary";
 import mongoose from "mongoose";
 
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import coursesService from "../../services/coursesService";
 import { ApiError } from "../../middlewares/errors/ApiError";
 

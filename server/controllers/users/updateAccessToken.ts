@@ -3,10 +3,11 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import env from "dotenv";
 env.config();
 
-import { catchAsyncErrors } from "../../middlewares/catchAsyncErrors";
+import { catchAsyncErrors } from "../../utils/catchAsyncErrors";
 import { ApiError } from "../../middlewares/errors/ApiError";
-import { redis } from "../../utils/redis";
 import { accessTokenOptions, refreshTokenOptions } from "../../utils/tokenOptions";
+import usersService from "../../services/usersService";
+import mongoose, { mongo } from "mongoose";
 
 /*
 @ Desc     Update access token
@@ -16,6 +17,7 @@ import { accessTokenOptions, refreshTokenOptions } from "../../utils/tokenOption
 export const updateAccessToken = catchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     const refresh_token = req.cookies.refresh_token as string;
+
     if (!refresh_token) {
       return next(ApiError.forbidden("You need to login to access this resource"));
     }
@@ -23,12 +25,13 @@ export const updateAccessToken = catchAsyncErrors(
     if (!decoded) {
       return next(ApiError.forbidden("Could not refresh token"));
     }
+    const userId = decoded.id as string;
 
-    const session = await redis.get(decoded.id as string);
-    if (!session) {
-      return next(ApiError.forbidden("Please login to access this resources!"));
+    const user = await usersService.findById(userId);
+
+    if (!user) {
+      return next(ApiError.resourceNotFound("User not found"));
     }
-    const user = JSON.parse(session);
 
     const accessToken = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN as string, { expiresIn: "5m" });
 
@@ -38,8 +41,6 @@ export const updateAccessToken = catchAsyncErrors(
 
     res.cookie("access_token", accessToken, accessTokenOptions);
     res.cookie("refresh_token", refreshToken, refreshTokenOptions);
-
-    await redis.set(user._id, JSON.stringify(user), "EX", 60 * 60 * 24 * 7);
 
     res.status(200).json({
       success: true,

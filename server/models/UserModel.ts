@@ -37,6 +37,18 @@ const userSchema: Schema<User> = new Schema(
       type: Boolean,
       default: false,
     },
+    position: {
+      type: String,
+      required: false,
+    },
+    description: {
+      type: String,
+      required: false,
+    },
+    qualification: {
+      type: [String],
+      required: false,
+    },
     courses: [
       {
         courseId: {

@@ -14,6 +14,9 @@ export interface User extends Document {
   role: string;
   isVerified: boolean;
   courses: Array<{ courseId: string }>;
+  position: string;
+  description: string;
+  qualification: [string];
   comparePassword: (enteredPassword: string) => Promise<boolean>;
   SignAccessToken: () => string;
   SignRefreshToken: () => string;
@@ -52,7 +55,9 @@ export interface SocialAuthBody {
 
 export interface UpdateUser {
   name?: string;
-  email?: string;
+  position?: string;
+  description?: string;
+  qualification?: [string];
 }
 
 export interface UpdatePassword {
