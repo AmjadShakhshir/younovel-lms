@@ -16,7 +16,7 @@ import { deleteUser } from "../controllers/users/deleteUser";
 
 const userRouter = express.Router();
 
-userRouter.get("/", isAuthenticated, getAllUsers);
+userRouter.get("/", getAllUsers);
 userRouter.get("/logout", isAuthenticated, logout);
 userRouter.get("/me", isAuthenticated, getUser);
 userRouter.get("/refresh", updateAccessToken);
@@ -28,6 +28,6 @@ userRouter.put("/update", isAuthenticated, updatedUser);
 userRouter.put("/password", isAuthenticated, updatePassword);
 userRouter.put("/avatar", isAuthenticated, updateProfilePic);
 userRouter.put("/role", isAuthenticated, authorizeRoles("admin"), updateUserRole);
-userRouter.delete("/:id", isAuthenticated, authorizeRoles("admin"), deleteUser);
+userRouter.delete("/:id", authorizeRoles("admin"), deleteUser);
 
 export default userRouter;
