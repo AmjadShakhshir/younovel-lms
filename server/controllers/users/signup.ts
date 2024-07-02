@@ -88,9 +88,11 @@ export const activateUser = catchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     const { token, activationCode } = req.body as ActivationToken;
     const newUser = verifyToken(token, activationCode);
+
     if (!newUser) {
       throw ApiError.badRequest("Invalid token");
     }
+
     req.body = newUser.user;
     const user = await createUser(req, res, next);
     if (!user) {

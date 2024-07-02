@@ -37,6 +37,7 @@ const findByEmail = async (email: string) => {
   return emailFoundInDB;
 };
 
+<<<<<<< HEAD
 const findById = async (id: string) => {
   try {
     const user = await UserRepo.findById(id);
@@ -44,6 +45,12 @@ const findById = async (id: string) => {
   } catch (error) {
     console.log("Error finding user by id", error);
   }
+=======
+const findById = async (id: mongoose.Types.ObjectId) => {
+  const userId = id.toString();
+  const user = await UserRepo.findById(userId);
+  return user;
+>>>>>>> origin/main
 };
 
 const findByName = async (name: string) => {
